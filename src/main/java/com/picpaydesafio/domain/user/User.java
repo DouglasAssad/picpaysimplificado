@@ -3,6 +3,7 @@ package com.picpaydesafio.domain.user;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 import java.math.BigDecimal;
 
 @Entity(name = "users")
@@ -14,6 +15,38 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(of = "id")
 
 public class User {
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
