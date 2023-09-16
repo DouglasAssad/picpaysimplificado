@@ -1,5 +1,6 @@
 package com.picpaydesafio.services;
 
+import com.picpaydesafio.domain.transaction.Transaction;
 import com.picpaydesafio.domain.user.User;
 import com.picpaydesafio.dtos.TransactioDTO;
 import com.picpaydesafio.repositories.TransactionRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class TransactionServices {
@@ -17,7 +19,7 @@ public class TransactionServices {
     private UserService userService;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionRepository repository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -32,6 +34,18 @@ public class TransactionServices {
         if(!isAuthorized){
             throw new Exception("Transação não autorizada");
         }
+        Transaction newTransaction = new Transaction();
+        newTransaction.setAmount(transaction.value());
+        newTransaction.setSender(sender);
+        newTransaction.setReceiver(receiver);
+        newTransaction.setTimestamp(LocalDateTime.now());
+
+        sender.setBalance(sender.getBalance().subtract(transaction.value()));
+        receiver.setBalance(receiver.getBalance().add(transaction.value()));
+
+        this.repository.save(newTransaction);
+        this.userService.saveUser(sender);
+        this.userService.saveUser(receiver);
     }
 
     public boolean authorizeTransaction(User sender, BigDecimal value){
