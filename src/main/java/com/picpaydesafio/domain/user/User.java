@@ -1,5 +1,5 @@
 package com.picpaydesafio.domain.user;
-
+import com.picpaydesafio.dtos.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,8 +34,11 @@ public class User {
 
     private BigDecimal balance;
 
-    @Enumerated(EnumType.STRING)
-    private UserType userType;
+
+    private String userType;
+
+    public User(UserDTO data) {
+    }
 
     public Long getId() {
         return id;
@@ -93,11 +96,22 @@ public class User {
         this.balance = balance;
     }
 
-    public UserType getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(UserType userType) {
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public User(String firstName, String lastName, String document, String email, String password, BigDecimal balance, String userType) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.document = document;
+        this.email = email;
+        this.password = password;
+        this.balance = balance;
         this.userType = userType;
     }
 }
