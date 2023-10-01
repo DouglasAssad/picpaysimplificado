@@ -34,11 +34,8 @@ public class User {
 
     private BigDecimal balance;
 
-
-    private String userType;
-
-    public User(UserDTO data) {
-    }
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     public Long getId() {
         return id;
@@ -96,22 +93,21 @@ public class User {
         this.balance = balance;
     }
 
-    public String getUserType() {
+    public UserType getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
 
-    public User(String firstName, String lastName, String document, String email, String password, BigDecimal balance, String userType) {
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.document = document;
-        this.email = email;
-        this.password = password;
-        this.balance = balance;
-        this.userType = userType;
+    public  User(UserDTO data){
+        this.firstName = data.firstName();
+        this.lastName = data.lastName();
+        this.balance = data.balance();
+        this.userType = data.userType();
+        this.email = data.email();
+        this.password = data.password();
+        this.document = data.document();
     }
 }
